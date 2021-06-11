@@ -1,0 +1,21 @@
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: Send an event to the Ringier Event Bus
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Send an event to the Ringier Event Bus
+        uses: ./
+        id: sendevent
+        with:
+          venture-config-id: ${{ secrets.RSB_VENTURE_CONFIG_ID }}
+          username: ${{ secrets.RSB_USERNAME }}
+          password: ${{ secrets.RSB_PASSWORD }}
+          bus-base-url: ${{ secrets.RSB_BUS_BASE_URL }}
+          eventname: 'ExampleGithubActionEvent'
+          payload: '{ "BuildState": "success", "CodeCoverage": 46 }'
+      - name: Print the event that was sent
+        run: printf "${{ steps.sendevent.outputs.event }}"

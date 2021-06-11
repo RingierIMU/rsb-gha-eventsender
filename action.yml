@@ -1,0 +1,40 @@
+name: 'Ringier Event Bus sender'
+description: 'Sends and event to a Ringier Event Bus instance'
+inputs:
+  venture-config-id:
+    description: 'Venture config ID'
+    required: true
+    default: ''
+  username:
+    description: 'Username'
+    required: true
+    default: ''
+  password:
+    description: 'Password'
+    required: true
+    default: ''
+  bus-base-url:
+    description: 'The base URL of the event bus'
+    required: true
+    default: ''
+  eventname:
+    description: 'The name of the event, that you want to send to the bus'
+    required: true
+    default: '{}'
+  payload:
+    description: 'The JSON payload, that you want to send within the event'
+    required: true
+    default: '{}'
+outputs:
+  event:
+    description: 'The event that was sent to the bus'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.venture-config-id }}
+    - ${{ inputs.username }}
+    - ${{ inputs.password }}
+    - ${{ inputs.bus-base-url }}
+    - ${{ inputs.eventname }}
+    - ${{ inputs.payload }}
